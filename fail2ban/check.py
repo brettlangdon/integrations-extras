@@ -1,8 +1,6 @@
-# stdlib
-import subprocess
-
 # project
 from checks import AgentCheck
+from utils.subprocess_output import get_subprocess_output
 
 
 EVENT_TYPE = SOURCE_TYPE_NAME = 'fail2ban'
@@ -64,9 +62,8 @@ class Fail2banCheck(AgentCheck):
         """
         if sudo:
             args.insert(0, "sudo")
-        process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        output, err = process.communicate()
-        if output and not err and process.returncode == 0:
+        output, err, retcode = get_subprocess_output(args, self.log)
+        if output and not err and retcode == 0:
             for line in output.split("\n"):
                 yield line
 

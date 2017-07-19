@@ -1,5 +1,4 @@
 # stdlib
-from nose.plugins.attrib import attr
 import subprocess  # noqa
 
 # third party
